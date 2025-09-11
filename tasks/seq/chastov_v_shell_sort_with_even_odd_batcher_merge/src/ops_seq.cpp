@@ -34,8 +34,7 @@ std::vector<size_t> ComputeGapSequence(int n) {
   return step_sizes;
 }
 
-void BatcherMerge(std::vector<int> &data, size_t begin, size_t center,
-                  size_t finish) {
+void BatcherMerge(std::vector<int> &data, size_t begin, size_t center, size_t finish) {
   std::vector<int> left(data.begin() + begin, data.begin() + center);
   std::vector<int> right(data.begin() + center, data.begin() + finish);
 
@@ -48,8 +47,7 @@ void BatcherMerge(std::vector<int> &data, size_t begin, size_t center,
 
   for (size_t i = begin; i < finish; i++) {
     if (i % 2 == 0) {
-      if (l_pos < l_length &&
-          (r_pos >= r_length || left[l_pos] <= right[r_pos])) {
+      if (l_pos < l_length && (r_pos >= r_length || left[l_pos] <= right[r_pos])) {
         data[position] = left[l_pos];
         position++;
         l_pos++;
@@ -59,8 +57,7 @@ void BatcherMerge(std::vector<int> &data, size_t begin, size_t center,
         r_pos++;
       }
     } else {
-      if (r_pos < r_length &&
-          (l_pos >= l_length || right[r_pos] <= left[l_pos])) {
+      if (r_pos < r_length && (l_pos >= l_length || right[r_pos] <= left[l_pos])) {
         data[position] = right[r_pos];
         position++;
         r_pos++;
@@ -99,10 +96,9 @@ void EnhancedShellSort(std::vector<int> &data) {
     BatcherMerge(data, 0, center, finish);
   }
 }
-} // namespace
+}  // namespace
 
-bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::
-    PreProcessingImpl() {
+bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::PreProcessingImpl() {
   size_t data_count = task_data->inputs_count[0];
   uint8_t *input_buffer = task_data->inputs[0];
 
@@ -117,20 +113,16 @@ bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::
   return true;
 }
 
-bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::
-    ValidationImpl() {
-  return task_data->inputs_count[0] > 0 &&
-         task_data->inputs_count[0] == task_data->outputs_count[0];
+bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::ValidationImpl() {
+  return task_data->inputs_count[0] > 0 && task_data->inputs_count[0] == task_data->outputs_count[0];
 }
 
-bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::
-    RunImpl() {
-  EnhancedShellSort(input_data_);
-  return true;
+bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::RunImpl() {
+   EnhancedShellSort(input_data_);
+   return true;
 }
 
-bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::
-    PostProcessingImpl() {
+bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::PostProcessingImpl() {
   int *output_destination = reinterpret_cast<int *>(task_data->outputs[0]);
   size_t output_size = task_data->outputs_count[0];
 

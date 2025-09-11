@@ -13,8 +13,7 @@
 #include "seq/chastov_v_shell_sort_with_even_odd_batcher_merge/include/ops_seq.hpp"
 
 namespace {
-std::vector<int> GenerateRandomArray(int array_size, int max_value,
-                                     int min_value) {
+std::vector<int> GenerateRandomArray(int array_size, int max_value, int min_value) {
   if (array_size <= 0) {
     throw std::invalid_argument("Invalid array size");
   }
@@ -29,7 +28,7 @@ std::vector<int> GenerateRandomArray(int array_size, int max_value,
   }
   return random_array;
 }
-} // namespace
+}  // namespace
 
 TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_pipeline_run) {
   const int max_range_value = 800;
@@ -38,8 +37,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_pipeline_run) {
 
   bool descending_flag = false;
 
-  std::vector<int> in =
-      GenerateRandomArray(size, max_range_value, min_range_value);
+  std::vector<int> in = GenerateRandomArray(size, max_range_value, min_range_value);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> expected_result = in;
@@ -48,16 +46,14 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_pipeline_run) {
   // Create task_data
   auto task_data_seq = std::make_shared<ppc::core::TaskData>();
   task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
-  task_data_seq->inputs.emplace_back(
-      reinterpret_cast<uint8_t *>(&descending_flag));
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&descending_flag));
   task_data_seq->inputs_count.emplace_back(in.size());
   task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  auto test_task_sequential = std::make_shared<
-      chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential>(
-      task_data_seq);
+  auto test_task_sequential =
+      std::make_shared<chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential>(task_data_seq);
 
   // Create Perf attributes
   auto perf_attr = std::make_shared<ppc::core::PerfAttr>();
@@ -65,9 +61,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_pipeline_run) {
   const auto t0 = std::chrono::high_resolution_clock::now();
   perf_attr->current_timer = [&] {
     auto current_time_point = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                        current_time_point - t0)
-                        .count();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(current_time_point - t0).count();
     return static_cast<double>(duration) * 1e-9;
   };
 
@@ -89,8 +83,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_task_run) {
   bool descending_flag = false;
 
   // Create data
-  std::vector<int> in =
-      GenerateRandomArray(size, max_range_value, min_range_value);
+  std::vector<int> in = GenerateRandomArray(size, max_range_value, min_range_value);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> expected_result = in;
@@ -99,16 +92,14 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_task_run) {
   // Create task_data
   auto task_data_seq = std::make_shared<ppc::core::TaskData>();
   task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
-  task_data_seq->inputs.emplace_back(
-      reinterpret_cast<uint8_t *>(&descending_flag));
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(&descending_flag));
   task_data_seq->inputs_count.emplace_back(in.size());
   task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  auto test_task_sequential = std::make_shared<
-      chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential>(
-      task_data_seq);
+  auto test_task_sequential =
+      std::make_shared<chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential>(task_data_seq);
 
   // Create Perf attributes
   auto perf_attr = std::make_shared<ppc::core::PerfAttr>();
@@ -116,9 +107,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_task_run) {
   const auto t0 = std::chrono::high_resolution_clock::now();
   perf_attr->current_timer = [&] {
     auto current_time_point = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                        current_time_point - t0)
-                        .count();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(current_time_point - t0).count();
     return static_cast<double>(duration) * 1e-9;
   };
 
