@@ -12,14 +12,14 @@
 #include "seq/chastov_v_shell_sort_with_even_odd_batcher_merge/include/ops_seq.hpp"
 
 namespace {
-std::vector<int> GenerateRandomArray(int min_value, int max_value, int array_size) {
+std::vector<int> GenerateRandomArray(int array_size, std::pair<int, int> value_range) {
   if (array_size <= 0) {
     throw std::invalid_argument("Invalid array size");
   }
 
   std::random_device random_seed;
   std::mt19937 random_engine(random_seed());
-  std::uniform_int_distribution<int> value_distribution(min_value, max_value);
+  std::uniform_int_distribution<int> value_distribution(value_range.first, value_range.second);
 
   std::vector<int> random_array;
   random_array.reserve(array_size);
@@ -252,7 +252,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_large_random) {
   const int max_value = 1000;
   const int min_value = -1000;
 
-  std::vector<int> in = GenerateRandomArray(min_value, max_value, array_size);
+  std::vector<int> in = GenerateRandomArray(array_size, {min_value, max_value});
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
