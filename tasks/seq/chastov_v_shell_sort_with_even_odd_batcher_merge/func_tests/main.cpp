@@ -11,8 +11,7 @@
 #include "seq/chastov_v_shell_sort_with_even_odd_batcher_merge/include/ops_seq.hpp"
 
 namespace {
-std::vector<int> GenerateRandomArray(int array_size, int max_value,
-                                     int min_value) {
+std::vector<int> GenerateRandomArray(int array_size, int max_value, int min_value) {
   if (array_size <= 0) {
     throw std::invalid_argument("Invalid array size");
   }
@@ -27,7 +26,7 @@ std::vector<int> GenerateRandomArray(int array_size, int max_value,
   }
   return random_array;
 }
-} // namespace
+}  // namespace
 
 TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_positive_values) {
   // Create data
@@ -45,8 +44,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_positive_values) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -56,8 +54,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_positive_values) {
 
 TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_negative_values) {
   // Create data
-  std::vector<int> in = {-300, -246,  -1253, -67, -8,
-                         -900, -3421, -1,    -10, -1223445};
+  std::vector<int> in = {-300, -246, -1253, -67, -8, -900, -3421, -1, -10, -1223445};
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -71,8 +68,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_negative_values) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -96,8 +92,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_repeating_value) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -121,8 +116,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_sorted_values) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -130,8 +124,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_sorted_values) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
-     test_reverse_sorted_array) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_reverse_sorted_array) {
   // Create data
   std::vector<int> in = {15000, 3000, 5678, 1500, 60, 30, 10, 3, 2, 1};
   std::vector<int> out(in.size(), 0);
@@ -147,8 +140,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -172,8 +164,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_single_element) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -197,8 +188,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_two_elements) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -206,8 +196,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_two_elements) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
-     test_mixed_positive_negative) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_mixed_positive_negative) {
   // Create data
   std::vector<int> in = {-5, 3, -2, 0, 7, -1, 4};
   std::vector<int> out(in.size(), 0);
@@ -223,8 +212,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -248,8 +236,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_all_identical) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -277,8 +264,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_large_random) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -302,8 +288,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_zero_values) {
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -311,8 +296,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_zero_values) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
-     test_duplicates_sorted_forward) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_sorted_forward) {
   // Create data
   std::vector<int> in = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
   std::vector<int> out(in.size(), 0);
@@ -328,8 +312,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -337,8 +320,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
-     test_duplicates_sorted_reverse) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_sorted_reverse) {
   // Create data
   std::vector<int> in = {5, 5, 4, 4, 3, 3, 2, 2, 1, 1};
   std::vector<int> out(in.size(), 0);
@@ -354,8 +336,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -363,8 +344,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
-     test_duplicates_mixed_order) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_mixed_order) {
   // Create data
   std::vector<int> in = {3, 1, 2, 3, 1, 2, 3, 1, 2};
   std::vector<int> out(in.size(), 0);
@@ -380,8 +360,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -389,11 +368,9 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
-     test_duplicates_with_extremes) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_with_extremes) {
   // Create data
-  std::vector<int> in = {INT_MAX, INT_MIN, 0,       INT_MAX, INT_MIN,
-                         0,       INT_MAX, INT_MIN, 0};
+  std::vector<int> in = {INT_MAX, INT_MIN, 0, INT_MAX, INT_MIN, 0, INT_MAX, INT_MIN, 0};
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -407,8 +384,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();
@@ -416,8 +392,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
-     test_multiple_duplicates_random) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_multiple_duplicates_random) {
   // Create data
   std::vector<int> in;
 
@@ -447,8 +422,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge,
   task_data_seq->outputs_count.emplace_back(out.size());
 
   // Create Task
-  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential
-      test_task_sequential(task_data_seq);
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
   ASSERT_EQ(test_task_sequential.Validation(), true);
   test_task_sequential.PreProcessing();
   test_task_sequential.Run();

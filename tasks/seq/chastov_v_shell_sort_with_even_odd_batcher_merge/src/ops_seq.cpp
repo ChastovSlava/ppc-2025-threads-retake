@@ -118,8 +118,8 @@ bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::Valid
 }
 
 bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::RunImpl() {
-   EnhancedShellSort(input_data_);
-   return true;
+  EnhancedShellSort(input_data_);
+  return true;
 }
 
 bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::PostProcessingImpl() {
