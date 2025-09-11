@@ -11,26 +11,23 @@
 #include "seq/chastov_v_shell_sort_with_even_odd_batcher_merge/include/ops_seq.hpp"
 
 namespace {
-std::vector<int> GenerateRandomArray(int array_size, int max_value, int min_value) {
-  if (array_size <= 0) {
-    throw std::invalid_argument("Invalid array size");
+std::vector<int> GetRandomVector(int size, int upper_border, int lower_border) {
+  std::random_device dev;
+  std::mt19937 gen(dev());
+  if (size <= 0) {
+    throw "Incorrect size";
   }
-
-  std::random_device random_seed;
-  std::mt19937 random_engine(random_seed());
-  std::uniform_int_distribution<int> value_distribution(min_value, max_value);
-
-  std::vector<int> random_array(array_size);
-  for (int i = 0; i < array_size; i++) {
-    random_array[i] = value_distribution(random_engine);
+  std::vector<int> vec(size);
+  for (int i = 0; i < size; i++) {
+    vec[i] = static_cast<int>(lower_border + (gen() % (upper_border - lower_border + 1)));
   }
-  return random_array;
+  return vec;
 }
 }  // namespace
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_positive_values) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_positive_values) {
   // Create data
-  std::vector<int> in = {300, 246, 1253, 67, 8, 900, 3421, 1, 10, 1223445};
+  std::vector<int> in = {578, 23546, 1231, 6, 18247, 789, 2348, 3, 213980, 123345};
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -52,9 +49,9 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_positive_values) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_negative_values) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_negative_values) {
   // Create data
-  std::vector<int> in = {-300, -246, -1253, -67, -8, -900, -3421, -1, -10, -1223445};
+  std::vector<int> in = {-578, -23546, -1231, -6, -18247, -789, -2348, -3, -213980, -123345};
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -76,7 +73,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_negative_values) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_repeating_value) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_repeating_value) {
   // Create data
   std::vector<int> in = {10, 10, 8, 9399, 10, 10, 546, 2387, 3728};
   std::vector<int> out(in.size(), 0);
@@ -100,9 +97,9 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_repeating_value) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_sorted_values) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, sorted_vec) {
   // Create data
-  std::vector<int> in = {1, 2, 3, 10, 30, 60, 1500, 3000, 15000};
+  std::vector<int> in = {13, 56, 90, 123, 345, 567, 1000, 1230, 12340};
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -124,9 +121,9 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_sorted_values) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_reverse_sorted_array) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, reverse_sorted_vec) {
   // Create data
-  std::vector<int> in = {15000, 3000, 5678, 1500, 60, 30, 10, 3, 2, 1};
+  std::vector<int> in = {12340, 9999, 5678, 800, 567, 340, 230, 10, 8, 3, 1};
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -148,9 +145,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_reverse_sorted_array
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_single_element) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_1) {
   // Create data
-  std::vector<int> in = {42};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 1;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -172,9 +173,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_single_element) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_two_elements) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_10) {
   // Create data
-  std::vector<int> in = {2, 1};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 10;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -196,9 +201,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_two_elements) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_mixed_positive_negative) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_100) {
   // Create data
-  std::vector<int> in = {-5, 3, -2, 0, 7, -1, 4};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 100;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -220,9 +229,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_mixed_positive_negat
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_all_identical) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_1000) {
   // Create data
-  std::vector<int> in = {5, 5, 5, 5, 5, 5, 5};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 1000;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -244,13 +257,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_all_identical) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_large_random) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_10000) {
   // Create data
-  const int array_size = 1000;
-  const int max_value = 1000;
-  const int min_value = -1000;
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 10000;
 
-  std::vector<int> in = GenerateRandomArray(array_size, max_value, min_value);
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -272,9 +285,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_large_random) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_zero_values) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_8) {
   // Create data
-  std::vector<int> in = {0, 0, 0, 0, 0, 0};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 8;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -296,9 +313,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_zero_values) {
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_sorted_forward) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_128) {
   // Create data
-  std::vector<int> in = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 128;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -320,9 +341,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_sorted_fo
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_sorted_reverse) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_27) {
   // Create data
-  std::vector<int> in = {5, 5, 4, 4, 3, 3, 2, 2, 1, 1};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 27;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -344,9 +369,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_sorted_re
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_mixed_order) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_729) {
   // Create data
-  std::vector<int> in = {3, 1, 2, 3, 1, 2, 3, 1, 2};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 729;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -368,9 +397,13 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_mixed_ord
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_with_extremes) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_457) {
   // Create data
-  std::vector<int> in = {INT_MAX, INT_MIN, 0, INT_MAX, INT_MIN, 0, INT_MAX, INT_MIN, 0};
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 457;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -392,25 +425,223 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_with_extr
   EXPECT_EQ(ref, out);
 }
 
-TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_multiple_duplicates_random) {
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, vec_809) {
   // Create data
-  std::vector<int> in;
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 809;
 
-  for (int i = 0; i < 10; ++i) {
-    in.push_back(i);
-  }
-
-  for (int i = 0; i < 5; ++i) {
-    for (int j = 0; j < 10; ++j) {
-      in.push_back(j);
-    }
-  }
-
-  std::random_device rd;
-  std::mt19937 g(rd());
-  std::shuffle(in.begin(), in.end(), g);
-
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
   std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, reverse_sort_vec_500) {
+  // Create data
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 500;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
+  std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, reverse_sort_vec_347) {
+  // Create data
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 809;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
+  std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, reverse_sort_vec_1000) {
+  // Create data
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 1000;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
+  std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, reverse_sort_vec_10000) {
+  // Create data
+  const int upper_border_test = 1000;
+  const int lower_border_test = -1000;
+  const int size = 10000;
+
+  std::vector<int> in = GetRandomVector(size, upper_border_test, lower_border_test);
+  std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, reverse_duplicates_vec) {
+  // Create data
+  std::vector<int> in = {5, 4, 3, 2, 1, 5, 4, 3, 2, 1};
+  std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, reverse_duplicates_vec_reverse_sort) {
+  // Create data
+  std::vector<int> in = {5, 4, 3, 2, 1, 5, 4, 3, 2, 1};
+  std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, duplicates_vec) {
+  // Create data
+  std::vector<int> in = {1, 2, 3, 4, 5, 1, 2, 3, 4, 5};
+  std::vector<int> out(in.size(), 0);
+
+  std::vector<int> ref = in;
+  std::ranges::sort(ref);
+
+  // Create task_data
+  auto task_data_seq = std::make_shared<ppc::core::TaskData>();
+  task_data_seq->inputs.emplace_back(reinterpret_cast<uint8_t *>(in.data()));
+  task_data_seq->inputs_count.emplace_back(in.size());
+  task_data_seq->outputs.emplace_back(reinterpret_cast<uint8_t *>(out.data()));
+  task_data_seq->outputs_count.emplace_back(out.size());
+
+  // Create Task
+  chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential test_task_sequential(task_data_seq);
+  ASSERT_EQ(test_task_sequential.Validation(), true);
+  test_task_sequential.PreProcessing();
+  test_task_sequential.Run();
+  test_task_sequential.PostProcessing();
+  EXPECT_EQ(ref, out);
+}
+
+TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, duplicates_vec_reverse_sort) {
+  // Create data
+  std::vector<int> in = {1, 2, 3, 4, 5, 1, 2, 3, 4, 5};
+  std::vector<int> out(in.size(), 0);
+
   std::vector<int> ref = in;
   std::ranges::sort(ref);
 
