@@ -6,7 +6,6 @@
 #include <iterator>
 #include <vector>
 
-
 namespace {
 
 std::vector<size_t> ComputeGapSequence(int n) {

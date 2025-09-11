@@ -13,7 +13,6 @@
 #include "core/task/include/task.hpp"
 #include "seq/chastov_v_shell_sort_with_even_odd_batcher_merge/include/ops_seq.hpp"
 
-
 namespace {
 std::vector<int> GenerateRandomArray(int min_value, int max_value, int array_size) {
   if (array_size <= 0) {
