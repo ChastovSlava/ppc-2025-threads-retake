@@ -1,17 +1,19 @@
 #include <gtest/gtest.h>
 
 #include <algorithm>
+#include <climits>
 #include <cstdint>
-#include <functional>
 #include <memory>
 #include <random>
+#include <stdexcept>
 #include <vector>
 
 #include "core/task/include/task.hpp"
 #include "seq/chastov_v_shell_sort_with_even_odd_batcher_merge/include/ops_seq.hpp"
 
+
 namespace {
-std::vector<int> GenerateRandomArray(int array_size, int max_value, int min_value) {
+std::vector<int> GenerateRandomArray(int min_value, int max_value, int array_size) {
   if (array_size <= 0) {
     throw std::invalid_argument("Invalid array size");
   }
@@ -20,9 +22,10 @@ std::vector<int> GenerateRandomArray(int array_size, int max_value, int min_valu
   std::mt19937 random_engine(random_seed());
   std::uniform_int_distribution<int> value_distribution(min_value, max_value);
 
-  std::vector<int> random_array(array_size);
+  std::vector<int> random_array;
+  random_array.reserve(array_size);
   for (int i = 0; i < array_size; i++) {
-    random_array[i] = value_distribution(random_engine);
+    random_array.push_back(value_distribution(random_engine));
   }
   return random_array;
 }
@@ -250,7 +253,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_large_random) {
   const int max_value = 1000;
   const int min_value = -1000;
 
-  std::vector<int> in = GenerateRandomArray(array_size, max_value, min_value);
+  std::vector<int> in = GenerateRandomArray(min_value, max_value, array_size);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> ref = in;
@@ -395,6 +398,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_duplicates_with_extr
 TEST(chastov_v_shell_sort_with_even_odd_batcher_merge, test_multiple_duplicates_random) {
   // Create data
   std::vector<int> in;
+  in.reserve(60);
 
   for (int i = 0; i < 10; ++i) {
     in.push_back(i);

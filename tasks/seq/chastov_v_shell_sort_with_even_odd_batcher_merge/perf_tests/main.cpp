@@ -6,14 +6,16 @@
 #include <functional>
 #include <memory>
 #include <random>
+#include <stdexcept>
 #include <vector>
 
 #include "core/perf/include/perf.hpp"
 #include "core/task/include/task.hpp"
 #include "seq/chastov_v_shell_sort_with_even_odd_batcher_merge/include/ops_seq.hpp"
 
+
 namespace {
-std::vector<int> GenerateRandomArray(int array_size, int max_value, int min_value) {
+std::vector<int> GenerateRandomArray(int min_value, int max_value, int array_size) {
   if (array_size <= 0) {
     throw std::invalid_argument("Invalid array size");
   }
@@ -22,9 +24,10 @@ std::vector<int> GenerateRandomArray(int array_size, int max_value, int min_valu
   std::mt19937 random_engine(random_seed());
   std::uniform_int_distribution<int> value_distribution(min_value, max_value);
 
-  std::vector<int> random_array(array_size);
+  std::vector<int> random_array;
+  random_array.reserve(array_size);
   for (int i = 0; i < array_size; i++) {
-    random_array[i] = value_distribution(random_engine);
+    random_array.push_back(value_distribution(random_engine));
   }
   return random_array;
 }
@@ -37,7 +40,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge_seq, test_pipeline_run) {
 
   bool descending_flag = false;
 
-  std::vector<int> in = GenerateRandomArray(size, max_range_value, min_range_value);
+  std::vector<int> in = GenerateRandomArray(min_range_value, max_range_value, size);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> expected_result = in;
@@ -83,7 +86,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge_seq, test_task_run) {
   bool descending_flag = false;
 
   // Create data
-  std::vector<int> in = GenerateRandomArray(size, max_range_value, min_range_value);
+  std::vector<int> in = GenerateRandomArray(min_range_value, max_range_value, size);
   std::vector<int> out(in.size(), 0);
 
   std::vector<int> expected_result = in;

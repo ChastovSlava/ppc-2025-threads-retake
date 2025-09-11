@@ -2,7 +2,10 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <cstdint>
+#include <iterator>
 #include <vector>
+
 
 namespace {
 
@@ -11,7 +14,7 @@ std::vector<size_t> ComputeGapSequence(int n) {
   int k = 0;
 
   while (true) {
-    int step_size;
+    int step_size = 0;
     if (k % 2 == 0) {
       step_size = 9 * (1 << (2 * k)) - 9 * (1 << k) + 1;
     } else {
@@ -30,13 +33,17 @@ std::vector<size_t> ComputeGapSequence(int n) {
     step_sizes.push_back(1);
   }
 
-  std::reverse(step_sizes.begin(), step_sizes.end());
+  std::ranges::reverse(step_sizes.begin(), step_sizes.end());
   return step_sizes;
 }
 
 void BatcherMerge(std::vector<int> &data, size_t begin, size_t center, size_t finish) {
-  std::vector<int> left(data.begin() + begin, data.begin() + center);
-  std::vector<int> right(data.begin() + center, data.begin() + finish);
+  auto begin_iter = std::next(data.begin(), static_cast<std::ptrdiff_t>(begin));
+  auto center_iter = std::next(data.begin(), static_cast<std::ptrdiff_t>(center));
+  auto finish_iter = std::next(data.begin(), static_cast<std::ptrdiff_t>(finish));
+
+  std::vector<int> left(begin_iter, center_iter);
+  std::vector<int> right(center_iter, finish_iter);
 
   size_t l_pos = 0;
   size_t r_pos = 0;
@@ -106,7 +113,7 @@ bool chastov_v_shell_sort_with_even_odd_batcher_merge::TestTaskSequential::PrePr
   input_data_.reserve(data_count);
 
   for (size_t i = 0; i < data_count; ++i) {
-    int value = *reinterpret_cast<int *>(input_buffer + i * sizeof(int));
+    int value = *reinterpret_cast<int *>(input_buffer + (i * sizeof(int)));
     input_data_.push_back(value);
   }
 
