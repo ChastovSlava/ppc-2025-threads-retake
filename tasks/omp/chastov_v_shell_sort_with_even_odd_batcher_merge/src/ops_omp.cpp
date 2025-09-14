@@ -98,7 +98,7 @@ void EnhancedShellSort(std::vector<int> &data) {
       auto local_size = static_cast<int>(chunk_end - chunk_begin + 1);
       auto step_sizes = ComputeGapSequence(local_size);
 
-      for (int step_size : step_sizes) {
+      for (size_t step_size : step_sizes) {
         for (size_t i = chunk_begin + step_size; i <= chunk_end; i++) {
           int tmp = data[i];
           size_t j = i;
