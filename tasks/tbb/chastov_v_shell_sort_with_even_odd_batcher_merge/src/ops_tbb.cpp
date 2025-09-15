@@ -113,7 +113,7 @@ void EnhancedShellSort(std::vector<int> &data) {
     });
 
     for (size_t segment_size = chunk_size; segment_size < total_elements; segment_size *= 2) {
-      std::vector<std::merge_tuple<size_t, size_t, size_t>> merge_tasks;
+      std::vector<std::tuple<size_t, size_t, size_t>> merge_tasks;
 
       for (size_t k = 0; k < total_elements; k += 2 * segment_size) {
         size_t center = std::min(k + segment_size, total_elements);

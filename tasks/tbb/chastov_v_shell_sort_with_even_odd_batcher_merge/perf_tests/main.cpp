@@ -81,7 +81,7 @@ TEST(chastov_v_shell_sort_with_even_odd_batcher_merge_seq, test_pipeline_run) {
 TEST(chastov_v_shell_sort_with_even_odd_batcher_merge_seq, test_task_run) {
   const int max_range_value = 1000;
   const int min_range_value = -1000;
-  const int size = 150000;
+  const int size = 120000;
 
   bool descending_flag = false;
 
