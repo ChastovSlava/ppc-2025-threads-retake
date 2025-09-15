@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <iterator>
+#include <tuple>
 #include <vector>
 
 #include "core/util/include/util.hpp"
@@ -80,6 +81,42 @@ void BatcherMerge(std::vector<int> &data, size_t begin, size_t center, size_t fi
   }
 }
 
+void SortChunk(std::vector<int> &data, size_t chunk_begin, size_t chunk_end) {
+  auto local_size = static_cast<int>(chunk_end - chunk_begin + 1);
+  auto step_sizes = ComputeGapSequence(local_size);
+
+  for (size_t step_size : step_sizes) {
+    for (size_t i = chunk_begin + step_size; i <= chunk_end; i++) {
+      int tmp = data[i];
+      size_t j = i;
+      while (j >= chunk_begin + step_size && data[j - step_size] > tmp) {
+        data[j] = data[j - step_size];
+        j -= step_size;
+      }
+      data[j] = tmp;
+    }
+  }
+}
+
+void MergeStage(std::vector<int> &data, size_t total_elements, size_t chunk_size) {
+  for (size_t segment_size = chunk_size; segment_size < total_elements; segment_size *= 2) {
+    std::vector<std::tuple<size_t, size_t, size_t>> merge_operations;
+
+    for (size_t k = 0; k < total_elements; k += 2 * segment_size) {
+      size_t center = std::min(k + segment_size, total_elements);
+      size_t finish = std::min(k + (2 * segment_size), total_elements);
+      if (center < finish) {
+        merge_operations.emplace_back(k, center, finish);
+      }
+    }
+
+    oneapi::tbb::parallel_for(size_t(0), merge_operations.size(), [&](size_t j) {
+      auto [begin_idx, center_idx, end_idx] = merge_operations[j];
+      BatcherMerge(data, begin_idx, center_idx, end_idx);
+    });
+  }
+}
+
 void EnhancedShellSort(std::vector<int> &data) {
   size_t total_elements = data.size();
   if (total_elements <= 1) {
@@ -95,39 +132,11 @@ void EnhancedShellSort(std::vector<int> &data) {
       size_t chunk_begin = static_cast<size_t>(thread_number) * chunk_size;
       size_t chunk_end = std::min(chunk_begin + chunk_size, total_elements) - 1;
       if (chunk_begin < total_elements) {
-        auto local_size = static_cast<int>(chunk_end - chunk_begin + 1);
-        auto step_sizes = ComputeGapSequence(local_size);
-
-        for (size_t step_size : step_sizes) {
-          for (size_t i = chunk_begin + step_size; i <= chunk_end; i++) {
-            int tmp = data[i];
-            size_t j = i;
-            while (j >= chunk_begin + step_size && data[j - step_size] > tmp) {
-              data[j] = data[j - step_size];
-              j -= step_size;
-            }
-            data[j] = tmp;
-          }
-        }
+        SortChunk(data, chunk_begin, chunk_end);
       }
     });
 
-    for (size_t segment_size = chunk_size; segment_size < total_elements; segment_size *= 2) {
-      std::vector<std::tuple<size_t, size_t, size_t>> merge_tasks;
-
-      for (size_t k = 0; k < total_elements; k += 2 * segment_size) {
-        size_t center = std::min(k + segment_size, total_elements);
-        size_t finish = std::min(k + (2 * segment_size), total_elements);
-        if (center < finish) {
-          merge_tasks.emplace_back(k, center, finish);
-        }
-      }
-
-      oneapi::tbb::parallel_for(size_t(0), merge_tasks.size(), [&](size_t j) {
-        auto [begin_idx, center, finish] = merge_tasks[j];
-        BatcherMerge(data, begin_idx, center, finish);
-      });
-    }
+    MergeStage(data, total_elements, chunk_size);
   });
 }
 }  // namespace
