@@ -98,7 +98,7 @@ void SortChunk(std::vector<int> &data, size_t chunk_begin, size_t chunk_end) {
   }
 }
 
-void MergeStage(std::vector<int> &data, size_t total_elements, size_t chunk_size) {
+void MergeStage(size_t total_elements, std::vector<int> &data, size_t chunk_size) {
   for (size_t segment_size = chunk_size; segment_size < total_elements; segment_size *= 2) {
     std::vector<std::tuple<size_t, size_t, size_t>> merge_operations;
 
@@ -136,7 +136,7 @@ void EnhancedShellSort(std::vector<int> &data) {
       }
     });
 
-    MergeStage(data, total_elements, chunk_size);
+    MergeStage(total_elements, data, chunk_size);
   });
 }
 }  // namespace
