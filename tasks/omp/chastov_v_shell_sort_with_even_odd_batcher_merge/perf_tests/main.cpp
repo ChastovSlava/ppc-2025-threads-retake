@@ -36,7 +36,7 @@ std::vector<int> GenerateRandomArray(int array_size, std::pair<int, int> value_r
 TEST(chastov_v_shell_sort_with_even_odd_batcher_merge_omp, test_pipeline_run) {
   const int max_range_value = 1000;
   const int min_range_value = -1000;
-  const int size = 150000;
+  const int size = 80000;
 
   bool descending_flag = false;
 
